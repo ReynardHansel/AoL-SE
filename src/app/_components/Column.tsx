@@ -1,15 +1,15 @@
 import { Task } from "@prisma/client";
 
-type Tasks = Task[]
+type Tasks = Task[];
 
 type ColumnProps = {
   title: string;
-  tasks: Tasks
+  tasks: Tasks;
 };
 
 const Column = ({ title, tasks }: ColumnProps) => {
   return (
-    <div className="">
+    <div className="hover:bg-red-500">
       <h2>{title}</h2>
       <div className="">
         {/* {tasks.map((task) => (
