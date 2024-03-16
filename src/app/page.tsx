@@ -9,7 +9,9 @@ export default async function Home() {
 
   return (
     <BackgroundGradientAnimation>
-      <div>Home</div>
+      <div className="text-white">
+        <p>Hello there</p>
+      </div>
     </BackgroundGradientAnimation>
   );
 }
