@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <BackgroundGradientAnimation
-      className="absolute z-10 flex items-center justify-center text-white"
+      className="absolute z-10 flex items-center justify-center gap-16"
       containerClassName="flex items-center justify-center"
     >
       {(await columns).map((column) => {
