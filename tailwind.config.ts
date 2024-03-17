@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      colors: {
+        "nav-bg": "rgba(5, 5, 7, .5)",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
