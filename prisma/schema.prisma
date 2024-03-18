@@ -16,14 +16,14 @@ datasource db {
 
 model Task {
     id        String    @id @default(cuid())
-    userId    String
+    userId    String?
     columnId  Int
     title     String
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     Deadline  DateTime?
 
-    user   User   @relation(fields: [userId], references: [id])
+    user   User?  @relation(fields: [userId], references: [id])
     column Column @relation(fields: [columnId], references: [id])
 }
 

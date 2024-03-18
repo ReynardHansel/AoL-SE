@@ -3,17 +3,19 @@ Possible solution:
 - Import/make a scroll area beneath column title for the tasks cards
 
 Next:
-1. Make a login screen, cuz you need to have user id in the tasks table
 2. Make dummy tasks data to test fetching tasks and show it in the FE
 
 Notes:
 - Made all positioning in BackgroundGradientAnimation to fixed from absolute. Doesn't do anything, don't know if that would impact anything later
 
-INSERT INTO "Task" ("id", "userId", "columnId", "title", "updatedAt", "Deadline")
-VALUES 
-('cjkhdckjehckjehc', 'user1', 1, 'Task 1', NOW(), '2022-02-01 00:00:00'),
-('djkhfjkdshfkjshf', 'user2', 2, 'Task 2', NOW(), '2022-02-02 00:00:00'),
-('ejkhfjkdshfkjshf', 'user3', 3, 'Task 3', NOW(), '2022-02-03 00:00:00');
+-- INSERT INTO "Task" ("id", "columnId", "title", "updatedAt", "Deadline")
+-- VALUES 
+-- ('cjkhdckjehckjehc', 1, 'Task 1', NOW(), '2022-02-01 00:00:00'),
+-- ('djkhfjkdshfkjshf', 2, 'Task 2', NOW(), '2022-02-02 00:00:00'),
+-- ('ejkhfjkdshfkjshf', 3, 'Task 3', NOW(), '2022-02-03 00:00:00');
+
+-- INSERT INTO "Task" ("id", "userId", "columnId", "title", "updatedAt", "Deadline")
+-- VALUES ('cjkhdckjehckjshf', 'cltvf3s6k000013evbmv33rk3', 1, 'Task User', NOW(), NOW());
 
 -- INSERT INTO "Column" (id, title, "updatedAt")
 -- VALUES 
@@ -23,3 +25,5 @@ VALUES
 -- (4, 'Done', NOW());
 
 -- SELECT * FROM "Column"
+-- SELECT * FROM "Task"
+-- SELECT * FROM "User"
