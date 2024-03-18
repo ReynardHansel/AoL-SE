@@ -16,11 +16,20 @@ export const kanbanRouter = createTRPCRouter({
           Task: true,
         },
       });
-      
+
       return columns;
     } catch (error) {
       console.error("Error fetching columns:", error);
       throw new Error("Failed to fetch columns");
     }
+  }),
+
+  getTasks: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
+    const tasks = await ctx.db.task.findMany({
+      where: { columnId: input },
+      include: { user: true },
+    });
+
+    return tasks;
   }),
 });

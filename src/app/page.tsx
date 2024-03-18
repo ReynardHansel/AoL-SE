@@ -14,11 +14,13 @@ export default async function Home() {
     <>
       <Navbar />
       <BackgroundGradientAnimation
-        className="absolute z-10 flex gap-16"
+        className="absolute z-10 flex max-w-full gap-16"
         containerClassName="flex items-center justify-center"
       >
         {(await columns).map((column) => {
-          return <Column key={column.id} title={column.title} tasks={null} />;
+          return (
+            <Column key={column.id} title={column.title} columnId={column.id} />
+          );
         })}
       </BackgroundGradientAnimation>
     </>
