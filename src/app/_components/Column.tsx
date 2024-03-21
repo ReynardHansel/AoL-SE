@@ -1,10 +1,11 @@
-import { Task } from "@prisma/client";
-import Image from "next/image";
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
-import { api } from "~/trpc/server";
+// import { api } from "~/trpc/server";
 import { VscAccount } from "react-icons/vsc";
 import { useDroppable } from "@dnd-kit/core";
+import { api } from "~/trpc/react";
 
 type ColumnProps = {
   title: string;
@@ -19,22 +20,24 @@ const columnIdToBgColor: Record<number, string> = {
   // Add more mappings as needed
 };
 
-export default async function Column({ title, columnId }: ColumnProps) {
-  // console.log(tasks);
-  const tasks = await api.kanban.getTasks(columnId);
-  const { setNodeRef } = useDroppable({
-    id: columnId.toString(),
-  });
+export default function Column({ title, columnId }: ColumnProps) {
+  // const tasks = await api.kanban.getTasks(columnId);
+  // const tasks = api.kanban.getTasks2({ columnId: columnId });
+  const tasks = api.kanban.getTasks2.useQuery({ columnId: columnId });
+  console.log(tasks);
+  // const { setNodeRef } = useDroppable({
+  //   id: columnId.toString(),
+  // });
 
   const bgColorClass = columnIdToBgColor[columnId] || "bg-gray-500";
 
   return (
-    <div ref={setNodeRef} className="group flex flex-col gap-4 text-white">
+    <div className="group flex flex-col gap-4 text-white">
       <h1 className="font-bold">{title}</h1>
       <div
         className={`-mt-2 h-1 w-1/2 rounded ${bgColorClass} transition-all duration-300 group-hover:w-3/4`}
       ></div>
-      {(await tasks).map((task) => {
+      {tasks.data?.map((task) => {
         return (
           <Card
             className="cursor-pointer bg-transparent text-white"

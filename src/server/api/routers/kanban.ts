@@ -32,4 +32,19 @@ export const kanbanRouter = createTRPCRouter({
 
     return tasks;
   }),
+
+  getTasks2: publicProcedure
+    .input(z.object({ columnId: z.number() }))
+    .query(async ({ input: { columnId }, ctx }) => {
+      try {
+        const tasks = await ctx.db.task.findMany({
+          where: { columnId: columnId },
+          include: { user: true },
+        });
+
+        return tasks;
+      } catch (error) {
+        throw new Error("Failed to fetch tasks");
+      }
+    }),
 });
