@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { api } from "~/trpc/server";
 import { VscAccount } from "react-icons/vsc";
+import { useDroppable } from "@dnd-kit/core";
 
 type ColumnProps = {
   title: string;
@@ -19,13 +20,16 @@ const columnIdToBgColor: Record<number, string> = {
 };
 
 export default async function Column({ title, columnId }: ColumnProps) {
+  // console.log(tasks);
   const tasks = await api.kanban.getTasks(columnId);
-  console.log(tasks);
+  const { setNodeRef } = useDroppable({
+    id: columnId.toString(),
+  });
 
   const bgColorClass = columnIdToBgColor[columnId] || "bg-gray-500";
 
   return (
-    <div className="group flex flex-col gap-4 text-white">
+    <div ref={setNodeRef} className="group flex flex-col gap-4 text-white">
       <h1 className="font-bold">{title}</h1>
       <div
         className={`-mt-2 h-1 w-1/2 rounded ${bgColorClass} transition-all duration-300 group-hover:w-3/4`}
