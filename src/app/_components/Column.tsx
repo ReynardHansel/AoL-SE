@@ -2,10 +2,18 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
-// import { api } from "~/trpc/server";
 import { VscAccount } from "react-icons/vsc";
-import { useDroppable } from "@dnd-kit/core";
+
+import { useDroppable, useDraggable } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { SortableItem } from "./SortableItem";
+
 import { api } from "~/trpc/react";
+// import { api } from "~/trpc/server";
 
 type ColumnProps = {
   title: string;
@@ -21,56 +29,91 @@ const columnIdToBgColor: Record<number, string> = {
 };
 
 export default function Column({ title, columnId }: ColumnProps) {
+  const tasks = api.kanban.getTasks2.useQuery({ columnId: columnId });
   // const tasks = await api.kanban.getTasks(columnId);
   // const tasks = api.kanban.getTasks2({ columnId: columnId });
-  const tasks = api.kanban.getTasks2.useQuery({ columnId: columnId });
-  console.log(tasks);
-  // const { setNodeRef } = useDroppable({
-  //   id: columnId.toString(),
-  // });
+  // console.log(tasks);
+
+  const { isOver, setNodeRef } = useDroppable({
+    id: columnId.toString(),
+  });
+
+  const style = {
+    //? To check the position of the draggable element
+    color: isOver ? "green" : undefined,
+  };
 
   const bgColorClass = columnIdToBgColor[columnId] || "bg-gray-500";
 
   return (
-    <div className="group flex flex-col gap-4 text-white">
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="group flex flex-col gap-4 text-white"
+    >
       <h1 className="font-bold">{title}</h1>
       <div
         className={`-mt-2 h-1 w-1/2 rounded ${bgColorClass} transition-all duration-300 group-hover:w-3/4`}
       ></div>
-      {tasks.data?.map((task) => {
+      {/* <SortableContext
+        items={tasks.data?.map(task => task.id.toString()) || []}
+        strategy={verticalListSortingStrategy}
+      > */}
+      {tasks.data?.map((task, index) => {
         return (
-          <Card
-            className="cursor-pointer bg-transparent text-white"
-            key={task.id}
-          >
-            <CardHeader className="font-bold">{task.title}</CardHeader>
-            <CardContent>
-              <div className="flex items-center gap-2">
-                <p className="text-sm">Assigned to: </p>
-
-                {task.user ? (
-                  <div className="flex items-center justify-center gap-2">
-                    <Avatar>
-                      <AvatarImage src={task.user?.image} />
-                      <AvatarFallback>
-                        <VscAccount />
-                      </AvatarFallback>
-                    </Avatar>
-                    {/* <p className="text-sm">{task.user?.name}</p> */}
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center gap-2">
-                    <VscAccount />
-                    <p>-</p>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+          // <SortableItem key={task.id} id={task.id.toString()}>
+          <TaskCard key={task.id} task={task} index={index} />
+          // </SortableItem>
         );
       })}
+      {/* </SortableContext> */}
     </div>
   );
 }
 
-// function TaskCard() {}
+function TaskCard({ task, index }) {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: task.id.toString(),
+  });
+
+  const style = {
+    transform: CSS.Translate.toString(transform),
+  };
+
+  // console.log("Task index: ", index);
+
+  return (
+    <Card
+      className="cursor-pointer bg-transparent text-white"
+      key={task.id}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
+      <CardHeader className="font-bold">{task.title}</CardHeader>
+      <CardContent>
+        <div className="flex items-center gap-2">
+          <p className="text-sm">Assigned to: </p>
+
+          {task.user ? (
+            <div className="flex items-center justify-center gap-2">
+              <Avatar>
+                <AvatarImage src={task.user?.image} />
+                <AvatarFallback>
+                  <VscAccount />
+                </AvatarFallback>
+              </Avatar>
+              {/* <p className="text-sm">{task.user?.name}</p> */}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center gap-2">
+              <VscAccount />
+              <p>-</p>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}

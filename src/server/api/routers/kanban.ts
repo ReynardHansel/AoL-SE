@@ -47,4 +47,21 @@ export const kanbanRouter = createTRPCRouter({
         throw new Error("Failed to fetch tasks");
       }
     }),
+
+  moveTask: protectedProcedure
+    .input(z.object({ activeTaskId: z.string(), overColumnId: z.number() }))
+    .mutation(async ({ input: { activeTaskId, overColumnId }, ctx }) => {
+      try {
+        // Update the task's columnId in the database
+        const updatedTask = await ctx.db.task.update({
+          where: { id: activeTaskId },
+          data: { columnId: overColumnId },
+        });
+
+        return updatedTask;
+      } catch (error) {
+        console.error("Error moving task:", error);
+        throw new Error("Failed to move task");
+      }
+    }),
 });

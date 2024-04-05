@@ -7,12 +7,8 @@ import Column from "./_components/Column";
 import { Navbar } from "./_components/Navbar/page";
 import DndContextContainer from "./_components/DndContextContainer";
 
-function handleDragEnd() {
-  console.log("drag end");
-}
-
 export default async function Home() {
-  const session = getServerAuthSession();
+  // const session = getServerAuthSession();
   const columns = api.kanban.getColumn();
 
   return (
