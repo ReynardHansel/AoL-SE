@@ -13,6 +13,7 @@ import {
 import { SortableItem } from "./SortableItem";
 
 import { api } from "~/trpc/react";
+import { ScrollArea } from "~/components/ui/scroll-area";
 // import { api } from "~/trpc/server";
 
 type ColumnProps = {
