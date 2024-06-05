@@ -30,13 +30,13 @@ const columnIdToBgColor: Record<number, string> = {
 
 export default function Column({ title, columnId }: ColumnProps) {
   const { data: session, status } = useSession();
-  // console.log(session?.user);
+  // console.log(session?.user.id);
   // console.log({status});
 
   const tasks = api.kanban.getTasks2.useQuery({ columnId: columnId });
   // console.log(tasks);
 
-  const userAdmin = api.kanban.getUserAdminStatus.useQuery({ userId: session!.user.id });
+  const userAdmin = api.kanban.getUserAdminStatus.useQuery({ userId: session?.user.id || '' });
   // console.log(userAdmin.data);
 
   const { isOver, setNodeRef } = useDroppable({

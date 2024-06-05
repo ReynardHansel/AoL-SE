@@ -65,16 +65,18 @@ export const kanbanRouter = createTRPCRouter({
       }
     }),
 
-    getUserAdminStatus: protectedProcedure
-    .input(z.object({ userId: z.string() }))
+  getUserAdminStatus: protectedProcedure
+    .input(z.union([z.object({ userId: z.string() }), z.undefined(), z.null()]))
     .query(async ({ ctx, input }) => {
+      if (!input || !input.userId || input.userId == '') return;
+
       const user = await ctx.db.user.findUnique({
         where: { id: input.userId },
-        select: { isAdmin: true }
+        select: { isAdmin: true },
       });
 
       if (!user) {
-        throw new Error('User not found');
+        throw new Error("User not found");
       }
 
       return user.isAdmin;
