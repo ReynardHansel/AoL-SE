@@ -13,8 +13,7 @@ import {
 import { SortableItem } from "./SortableItem";
 
 import { api } from "~/trpc/react";
-import { ScrollArea } from "~/components/ui/scroll-area";
-// import { api } from "~/trpc/server";
+import { useSession } from "next-auth/react";
 
 type ColumnProps = {
   title: string;
@@ -30,10 +29,15 @@ const columnIdToBgColor: Record<number, string> = {
 };
 
 export default function Column({ title, columnId }: ColumnProps) {
+  const { data: session, status } = useSession();
+  // console.log(session?.user);
+  // console.log({status});
+
   const tasks = api.kanban.getTasks2.useQuery({ columnId: columnId });
-  // const tasks = await api.kanban.getTasks(columnId);
-  // const tasks = api.kanban.getTasks2({ columnId: columnId });
   // console.log(tasks);
+
+  const userAdmin = api.kanban.getUserAdminStatus.useQuery({ userId: session!.user.id });
+  // console.log(userAdmin.data);
 
   const { isOver, setNodeRef } = useDroppable({
     id: columnId.toString(),
@@ -41,7 +45,7 @@ export default function Column({ title, columnId }: ColumnProps) {
 
   const style = {
     //? To check the position of the draggable element
-    color: isOver ? "green" : undefined,
+    // color: isOver ? "green" : undefined,
   };
 
   const bgColorClass = columnIdToBgColor[columnId] || "bg-gray-500";
@@ -67,6 +71,11 @@ export default function Column({ title, columnId }: ColumnProps) {
           // </SortableItem>
         );
       })}
+      {columnId === 1 && userAdmin.data && (
+        <p className="-mt-1 w-fit cursor-pointer px-1 text-sm text-gray-400 hover:text-gray-200">
+          + Add Task
+        </p>
+      )}
       {/* </SortableContext> */}
     </div>
   );

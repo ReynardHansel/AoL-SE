@@ -64,4 +64,19 @@ export const kanbanRouter = createTRPCRouter({
         throw new Error("Failed to move task");
       }
     }),
+
+    getUserAdminStatus: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findUnique({
+        where: { id: input.userId },
+        select: { isAdmin: true }
+      });
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      return user.isAdmin;
+    }),
 });

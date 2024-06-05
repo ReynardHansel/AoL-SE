@@ -3,7 +3,10 @@ Possible solution:
 - Import/make a scroll area beneath column title for the tasks cards
 
 Next:
-2. Make dummy tasks data to test fetching tasks and show it in the FE
+1. Try to put the contents in the middle without using absolute, try using the transform trick
+2. Modify database to include other infos for TaskCard
+3. Add other infos for each <TaskCard> like deadline, etc
+4. Add delete button for <TaskCard> in Done column (only available for admin)
 
 Notes:
 - Made all positioning in BackgroundGradientAnimation to fixed from absolute. Doesn't do anything, don't know if that would impact anything later
@@ -27,3 +30,8 @@ Notes:
 -- SELECT * FROM "Column"
 -- SELECT * FROM "Task"
 -- SELECT * FROM "User"
+
+?To make a user an admin
+-- UPDATE "User"
+-- SET "isAdmin" = true
+-- WHERE "id" = 'cltzv5r9s000010fhopnucq83';
