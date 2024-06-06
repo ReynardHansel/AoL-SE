@@ -19,10 +19,11 @@ export default async function Home() {
     <>
       <Navbar />
       <BackgroundGradientAnimation
-        className="absolute z-10 flex max-w-full gap-16"
-        containerClassName="flex items-center justify-center"
-      >
-        <DndContextContainer>
+        className=" border-lime-500"
+        containerClassName=" border-lime-500"
+      ></BackgroundGradientAnimation>
+      <DndContextContainer>
+        <div className="pointer-events-none relative top-[15vh] z-10 mx-auto flex w-fit flex-wrap  justify-center gap-16 border-red-500">
           {(await columns).map((column) => {
             return (
               <SessionProvider key={column.id} session={session}>
@@ -34,8 +35,8 @@ export default async function Home() {
               </SessionProvider>
             );
           })}
-        </DndContextContainer>
-      </BackgroundGradientAnimation>
+        </div>
+      </DndContextContainer>
     </>
   );
 }

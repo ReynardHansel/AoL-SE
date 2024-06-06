@@ -4,6 +4,8 @@ Possible solution:
 
 Next:
 1. Try to put the contents in the middle without using absolute, try using the transform trick
+    Try to separate BackgroundGradientAnimation and content, instead of BackgroundGradientAnimation being the parent/container of the content
+    (in hope to finally break out of abs/fixed positioning so the content can be scrolled)
 2. Modify database to include other infos for TaskCard
 3. Add other infos for each <TaskCard> like deadline, etc
 4. Add delete button for <TaskCard> in Done column (only available for admin)

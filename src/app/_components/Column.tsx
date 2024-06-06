@@ -36,8 +36,11 @@ export default function Column({ title, columnId }: ColumnProps) {
   const tasks = api.kanban.getTasks2.useQuery({ columnId: columnId });
   // console.log(tasks);
 
-  const userAdmin = api.kanban.getUserAdminStatus.useQuery({ userId: session?.user.id || '' });
-  // console.log(userAdmin.data);
+  let userAdmin
+  if (session && session.user){
+    userAdmin = api.kanban.getUserAdminStatus.useQuery({ userId: session?.user.id || '' });
+    // console.log(userAdmin.data);
+  }
 
   const { isOver, setNodeRef } = useDroppable({
     id: columnId.toString(),
@@ -54,7 +57,7 @@ export default function Column({ title, columnId }: ColumnProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className="group flex flex-col gap-4 text-white"
+      className="group flex flex-col gap-4 text-white pointer-events-auto"
     >
       <h1 className="font-bold">{title}</h1>
       <div
@@ -71,7 +74,7 @@ export default function Column({ title, columnId }: ColumnProps) {
           // </SortableItem>
         );
       })}
-      {columnId === 1 && userAdmin.data && (
+      {columnId === 1 && userAdmin?.data && (
         <p className="-mt-1 w-fit cursor-pointer px-1 text-sm text-gray-400 hover:text-gray-200">
           + Add Task
         </p>
