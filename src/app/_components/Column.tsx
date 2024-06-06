@@ -36,9 +36,11 @@ export default function Column({ title, columnId }: ColumnProps) {
   const tasks = api.kanban.getTasks2.useQuery({ columnId: columnId });
   // console.log(tasks);
 
-  let userAdmin
-  if (session && session.user){
-    userAdmin = api.kanban.getUserAdminStatus.useQuery({ userId: session?.user.id || '' });
+  let userAdmin;
+  if (session && session.user) {
+    userAdmin = api.kanban.getUserAdminStatus.useQuery({
+      userId: session?.user.id || "",
+    });
     // console.log(userAdmin.data);
   }
 
@@ -57,7 +59,7 @@ export default function Column({ title, columnId }: ColumnProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className="group flex flex-col gap-4 text-white pointer-events-auto"
+      className="group pointer-events-auto flex h-fit flex-col gap-4 border-red-500 text-white"
     >
       <h1 className="font-bold">{title}</h1>
       <div
