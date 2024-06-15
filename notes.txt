@@ -1,14 +1,11 @@
-Problem: Cannot scroll if the content is longer than vh
+Problem:
 Possible solution:
-- Import/make a scroll area beneath column title for the tasks cards
 
 Next:
-1. Try to put the contents in the middle without using absolute, try using the transform trick
-    Try to separate BackgroundGradientAnimation and content, instead of BackgroundGradientAnimation being the parent/container of the content
-    (in hope to finally break out of abs/fixed positioning so the content can be scrolled)
 2. Modify database to include other infos for TaskCard
 3. Add other infos for each <TaskCard> like deadline, etc
 4. Add delete button for <TaskCard> in Done column (only available for admin)
+5. Add a blank-gray-dotted card with "+ Drag Task Here" for an empty column (so that user will have a room for dragging the TaskCard when Column is empty (because height is fit-content))
 
 Notes:
 - Made all positioning in BackgroundGradientAnimation to fixed from absolute. Doesn't do anything, don't know if that would impact anything later
@@ -37,3 +34,12 @@ Notes:
 -- UPDATE "User"
 -- SET "isAdmin" = true
 -- WHERE "id" = 'cltzv5r9s000010fhopnucq83';
+
+
+TaskCard contents:
+- title
+- description
+- assigned to
+- deadline
+- priority (High = red, Medium = yellow)
+- delete (admin)
