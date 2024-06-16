@@ -68,7 +68,7 @@ export const kanbanRouter = createTRPCRouter({
   getUserAdminStatus: protectedProcedure
     .input(z.union([z.object({ userId: z.string() }), z.undefined(), z.null()]))
     .query(async ({ ctx, input }) => {
-      if (!input || !input.userId || input.userId == '') return;
+      if (!input || !input.userId || input.userId == "") return;
 
       const user = await ctx.db.user.findUnique({
         where: { id: input.userId },
@@ -81,4 +81,25 @@ export const kanbanRouter = createTRPCRouter({
 
       return user.isAdmin;
     }),
+
+  getUsers: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      const users = await ctx.db.user.findMany({
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          emailVerified: true,
+          image: true,
+          isAdmin: true,
+          // Include other fields as needed
+        },
+      });
+
+      return users;
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      throw new Error("Failed to fetch users");
+    }
+  }),
 });

@@ -2,7 +2,7 @@ Problem:
 Possible solution:
 
 Next:
-2. Modify database to include other infos for TaskCard
+- Make the popover modal for admin adding new task, preferably make it it's own component
 3. Add other infos for each <TaskCard> like deadline, etc
 4. Add delete button for <TaskCard> in Done column (only available for admin)
 5. Add a blank-gray-dotted card with "+ Drag Task Here" for an empty column (so that user will have a room for dragging the TaskCard when Column is empty (because height is fit-content))

@@ -14,6 +14,7 @@ import { SortableItem } from "./SortableItem";
 
 import { api } from "~/trpc/react";
 import { useSession } from "next-auth/react";
+import AddTaskModal from "./AddTaskModal";
 
 type ColumnProps = {
   title: string;
@@ -77,9 +78,10 @@ export default function Column({ title, columnId }: ColumnProps) {
         );
       })}
       {columnId === 1 && userAdmin?.data && (
-        <p className="-mt-1 w-fit cursor-pointer px-1 text-sm text-gray-400 hover:text-gray-200">
-          + Add Task
-        </p>
+        <AddTaskModal></AddTaskModal>
+        // <p className="-mt-1 w-fit cursor-pointer px-1 text-sm text-gray-400 hover:text-gray-200">
+        //   + Add Task
+        // </p>
       )}
       {/* </SortableContext> */}
     </div>
