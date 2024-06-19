@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, ChangeEvent } from "react";
+import { useState, useEffect, useRef, ChangeEvent } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +13,46 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import AssignUserCombobox from "./AssignUserCombobox";
+import DeadlineDatePicker from "./DeadlineDatePicker";
+import { Button } from "~/components/ui/button";
 
 export default function AddTaskModal() {
+  //?????? Input values ????????
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [date, setDate] = useState<Date>();
+  const [priority, setPriority] = useState("normal");
+
+  //*** Event handlers
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
+
+  // const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  //   setDescription(event.target.value);
+  // };
+
+  const handlePriorityChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setPriority(event.target.value);
+  };
+
+  //*** Console logging form values
+  useEffect(() => {
+    console.log('Title:', title);
+  }, [title]);
+
+  useEffect(() => {
+    console.log('Description:', description);
+  }, [description]);
+
+  useEffect(() => {
+    console.log('Date:', date);
+  }, [date]);
+  
+  useEffect(() => {
+    console.log('Priority:', priority);
+  }, [priority]);
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -22,41 +60,66 @@ export default function AddTaskModal() {
           + Add Task
         </p>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add Task</DialogTitle>
-          <DialogDescription>
-            Please fill in the details for the new task
-          </DialogDescription>
-        </DialogHeader>
+      <form>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add Task</DialogTitle>
+            <DialogDescription>
+              Please fill in the details for the new task
+            </DialogDescription>
+          </DialogHeader>
 
-        {/* Main form */}
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="title">Title</Label>
-            <Input id="title" placeholder="Task Title"></Input>
-          </div>
+          {/* Main form */}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="title">Title</Label>
+              <Input id="title" placeholder="Task Title" required value={title} onChange={handleTitleChange}></Input>
+            </div>
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="desc">Description</Label>
-            <ModalTextArea textAreaId="desc"></ModalTextArea>
-          </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="desc">Description</Label>
+              <ModalTextArea textAreaId="desc" description={description} setDescription={setDescription} />
+            </div>
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="desc">Assign to:</Label>
-            <AssignUserCombobox></AssignUserCombobox>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="assign">Assign to:</Label>
+              <AssignUserCombobox />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="deadline">Deadline:</Label>
+              <DeadlineDatePicker date={date} setDate={setDate} />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="priority">Priority:</Label>
+              <select
+                id="priority-select"
+                value={priority}
+                onChange={handlePriorityChange}
+                className="h-fit w-fit rounded-md border border-zinc-200 bg-transparent px-3 py-2 text-sm shadow-sm transition-colors placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:placeholder:text-zinc-400 dark:focus-visible:ring-zinc-300"
+              >
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="normal">Normal</option>
+              </select>
+            </div>
           </div>
-        </div>
-      </DialogContent>
+          <DialogFooter>
+            <Button type="submit">Add Task</Button>
+          </DialogFooter>
+        </DialogContent>
+      </form>
     </Dialog>
   );
 }
 
-
 type ModalTextAreaProps = {
   textAreaId: string;
-}
-function ModalTextArea({textAreaId}: ModalTextAreaProps) {
+  description: string;
+  setDescription?: (value: string) => void;
+};
+function ModalTextArea({ textAreaId, description, setDescription }: ModalTextAreaProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const adjustTextareaHeight = () => {
@@ -70,6 +133,7 @@ function ModalTextArea({textAreaId}: ModalTextAreaProps) {
   // Adjust height on content change
   const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     adjustTextareaHeight();
+    setDescription?.(event.target.value);
   };
 
   // Adjust height on mount for initial content
@@ -81,7 +145,8 @@ function ModalTextArea({textAreaId}: ModalTextAreaProps) {
     <textarea
       ref={textareaRef}
       id={textAreaId}
-      className="h-fit w-full resize-none rounded-md border border-zinc-200 bg-transparent px-3 py-2 overflow-hidden text-sm shadow-sm transition-colors placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:placeholder:text-zinc-400 dark:focus-visible:ring-zinc-300"
+      value={description}
+      className="h-fit w-full resize-none overflow-hidden rounded-md border border-zinc-200 bg-transparent px-3 py-2 text-sm shadow-sm transition-colors placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:placeholder:text-zinc-400 dark:focus-visible:ring-zinc-300"
       onChange={handleTextareaChange}
     ></textarea>
   );
