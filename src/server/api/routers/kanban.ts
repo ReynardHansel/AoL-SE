@@ -1,3 +1,4 @@
+import { Priority } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -102,4 +103,35 @@ export const kanbanRouter = createTRPCRouter({
       throw new Error("Failed to fetch users");
     }
   }),
+
+  addTask: protectedProcedure
+    .input(
+      z.object({
+        title: z.string(),
+        description: z.string(),
+        assigneeId: z.string(),
+        deadline: z.date(),
+        priority: z.enum([Priority.high, Priority.medium, Priority.normal])
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const newTask = await ctx.db.task.create({
+          data: {
+            title: input.title,
+            description: input.description,
+            userId: input.assigneeId,
+            columnId: 1, // Default column ID
+            Deadline: input.deadline,
+            priority: input.priority,
+          },
+        });
+
+        return newTask;
+        
+      } catch (error) {
+        console.error("Error adding task:", error);
+        throw new Error("Failed to add task");
+      }
+    }),
 });
