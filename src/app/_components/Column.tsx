@@ -60,7 +60,7 @@ export default function Column({ title, columnId }: ColumnProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className="group pointer-events-auto flex h-fit flex-col gap-4 border-red-500 text-white"
+      className="group pointer-events-auto flex h-fit flex-col gap-4 border-red-500 pb-4 text-white"
     >
       <h1 className="font-bold">{title}</h1>
       <div
@@ -77,12 +77,7 @@ export default function Column({ title, columnId }: ColumnProps) {
           // </SortableItem>
         );
       })}
-      {columnId === 1 && userAdmin?.data && (
-        <AddTaskModal></AddTaskModal>
-        // <p className="-mt-1 w-fit cursor-pointer px-1 text-sm text-gray-400 hover:text-gray-200">
-        //   + Add Task
-        // </p>
-      )}
+      {columnId === 1 && userAdmin?.data && <AddTaskModal></AddTaskModal>}
       {/* </SortableContext> */}
     </div>
   );
