@@ -23,15 +23,15 @@ import { VscAccount } from "react-icons/vsc";
 
 import { api } from "~/trpc/react";
 
-export default function AssignUserCombobox() {
+export default function AssignUserCombobox({ assigneeId, setAssigneeId }) {
   const users = api.kanban.getUsers.useQuery();
   //   console.log(users.data);
 
   const [open, setOpen] = React.useState(false);
-  const [id, setId] = React.useState("");
-  React.useEffect(() => {
-    console.log(id);
-  }, [id]);
+  // const [id, setId] = React.useState("");
+  // React.useEffect(() => {
+  //   console.log(id);
+  // }, [id]);
 
   return (
     <>
@@ -45,8 +45,8 @@ export default function AssignUserCombobox() {
             className="w-fit justify-between"
           >
             <p className="">
-              {id
-                ? users.data?.find((user) => user.id === id)?.name
+              {assigneeId
+                ? users.data?.find((user) => user.id === assigneeId)?.name
                 : "Select user..."}
             </p>
             <ChevronsUpDown className="ml-4 h-4 w-4 shrink-0 opacity-50" />
@@ -63,14 +63,14 @@ export default function AssignUserCombobox() {
                     key={user.id}
                     id={user.id}
                     onSelect={() => {
-                      setId(user.id === id ? "" : user.id);
+                      setAssigneeId(user.id === assigneeId ? "" : user.id);
                       setOpen(false);
                     }}
                   >
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        id === user.id ? "opacity-100" : "opacity-0",
+                        assigneeId === user.id ? "opacity-100" : "opacity-0",
                       )}
                     />
                     <div className="flex items-center justify-center gap-3">

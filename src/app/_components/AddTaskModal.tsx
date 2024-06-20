@@ -20,6 +20,7 @@ export default function AddTaskModal() {
   //?????? Input values ????????
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [assigneeId, setAssigneeId] = useState<string>("");
   const [date, setDate] = useState<Date>();
   const [priority, setPriority] = useState("normal");
 
@@ -44,6 +45,10 @@ export default function AddTaskModal() {
   useEffect(() => {
     console.log('Description:', description);
   }, [description]);
+
+  useEffect(() => {
+    console.log('Assignee:', assigneeId);
+  }, [assigneeId]);
 
   useEffect(() => {
     console.log('Date:', date);
@@ -83,7 +88,7 @@ export default function AddTaskModal() {
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="assign">Assign to:</Label>
-              <AssignUserCombobox />
+              <AssignUserCombobox assigneeId={assigneeId} setAssigneeId={setAssigneeId} />
             </div>
 
             <div className="flex flex-col gap-2">
