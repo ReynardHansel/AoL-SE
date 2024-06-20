@@ -1,7 +1,13 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 import { VscAccount } from "react-icons/vsc";
 
 import { useDroppable, useDraggable } from "@dnd-kit/core";
@@ -93,18 +99,24 @@ function TaskCard({ task, index }) {
   };
 
   // console.log("Task index: ", index);
+  // console.log({ task });
 
   return (
     <Card
-      className="cursor-pointer bg-transparent text-white"
+      className="cursor-pointer bg-transparent tracking-wide text-white"
       key={task.id}
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
     >
-      <CardHeader className="font-bold">{task.title}</CardHeader>
-      <CardContent>
+      <CardHeader>
+        <CardTitle className="font-bold">{task.title}</CardTitle>
+        <CardDescription className="text-gray-400">
+          {task.description}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <p className="text-sm">Assigned to: </p>
 
@@ -125,6 +137,16 @@ function TaskCard({ task, index }) {
             </div>
           )}
         </div>
+
+        {task.Deadline ? (
+          <p className="text-sm">
+            Deadline: {task.Deadline.toLocaleDateString()}
+          </p>
+        ) : (
+          <p className="text-sm">Deadline: -</p>
+        )}
+
+        <p className="text-sm">Priority: {task.priority}</p>
       </CardContent>
     </Card>
   );
