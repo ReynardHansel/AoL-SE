@@ -23,7 +23,11 @@ import { VscAccount } from "react-icons/vsc";
 
 import { api } from "~/trpc/react";
 
-export default function AssignUserCombobox({ assigneeId, setAssigneeId }) {
+type AssignUserComboboxProps = {
+  assigneeId: string;
+  setAssigneeId: React.Dispatch<React.SetStateAction<string>>;
+};
+export default function AssignUserCombobox({ assigneeId, setAssigneeId }: AssignUserComboboxProps) {
   const users = api.kanban.getUsers.useQuery();
   //   console.log(users.data);
 
