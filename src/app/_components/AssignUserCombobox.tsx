@@ -24,10 +24,13 @@ import { VscAccount } from "react-icons/vsc";
 import { api } from "~/trpc/react";
 
 type AssignUserComboboxProps = {
-  assigneeId: string;
-  setAssigneeId: React.Dispatch<React.SetStateAction<string>>;
+  assigneeId: string | null;
+  setAssigneeId: React.Dispatch<React.SetStateAction<string | null>>;
 };
-export default function AssignUserCombobox({ assigneeId, setAssigneeId }: AssignUserComboboxProps) {
+export default function AssignUserCombobox({
+  assigneeId,
+  setAssigneeId,
+}: AssignUserComboboxProps) {
   const users = api.kanban.getUsers.useQuery();
   //   console.log(users.data);
 
@@ -88,6 +91,28 @@ export default function AssignUserCombobox({ assigneeId, setAssigneeId }: Assign
                     </div>
                   </CommandItem>
                 ))}
+                <CommandItem
+                  onSelect={() => {
+                    setAssigneeId(null);
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      assigneeId === null ? "opacity-100" : "opacity-0",
+                    )}
+                  />
+                  <div className="flex items-center justify-center gap-3">
+                    <Avatar>
+                      <AvatarImage src={""} />
+                      <AvatarFallback>
+                        <VscAccount />
+                      </AvatarFallback>
+                    </Avatar>
+                    <p>No User</p>
+                  </div>
+                </CommandItem>
               </CommandGroup>
             </CommandList>
           </Command>

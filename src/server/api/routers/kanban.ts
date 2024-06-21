@@ -109,7 +109,7 @@ export const kanbanRouter = createTRPCRouter({
       z.object({
         title: z.string(),
         description: z.string(),
-        assigneeId: z.string(),
+        assigneeId: z.string().nullable(),
         deadline: z.date().optional(),
         priority: z.enum([Priority.high, Priority.medium, Priority.normal])
       }),

@@ -23,7 +23,7 @@ export default async function Home() {
         containerClassName=" border-lime-500"
       ></BackgroundGradientAnimation>
       <DndContextContainer>
-        <div className="pointer-events-none relative top-[15vh] z-10 mx-auto flex w-fit flex-wrap  justify-center gap-16 border-red-500">
+        <div className="pointer-events-none relative top-[15vh] z-10 mx-auto flex w-fit flex-wrap  justify-center gap-20 border-red-500">
           {(await columns).map((column) => {
             return (
               <SessionProvider key={column.id} session={session}>

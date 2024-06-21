@@ -41,7 +41,7 @@ export default function AddTaskModal() {
   //?????? Input values ????????
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [assigneeId, setAssigneeId] = useState<string>("");
+  const [assigneeId, setAssigneeId] = useState<string | null>(null);
   const [date, setDate] = useState<Date>();
   const [priority, setPriority] = useState<Priority>("normal");
 
