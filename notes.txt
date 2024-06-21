@@ -1,9 +1,10 @@
-Problem: Cannot scroll if the content is longer than vh
+Problem:
 Possible solution:
-- Import/make a scroll area beneath column title for the tasks cards
 
 Next:
-2. Make dummy tasks data to test fetching tasks and show it in the FE
+3. Make a choice for no assignee in <AddTaskCard/>
+4. Add delete button for <TaskCard> in Done column (only available for admin)
+5. Add a blank-gray-dotted card with "+ Drag Task Here" for an empty column (so that user will have a room for dragging the TaskCard when Column is empty (because height is fit-content))
 
 Notes:
 - Made all positioning in BackgroundGradientAnimation to fixed from absolute. Doesn't do anything, don't know if that would impact anything later
@@ -27,3 +28,17 @@ Notes:
 -- SELECT * FROM "Column"
 -- SELECT * FROM "Task"
 -- SELECT * FROM "User"
+
+?To make a user an admin
+-- UPDATE "User"
+-- SET "isAdmin" = true
+-- WHERE "id" = 'cltzv5r9s000010fhopnucq83';
+
+
+TaskCard contents:
+- title
+- description
+- assigned to
+- deadline
+- priority (High = red, Medium = yellow)
+- delete (admin)

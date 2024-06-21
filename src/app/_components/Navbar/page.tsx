@@ -7,9 +7,10 @@ import { VscAccount } from "react-icons/vsc";
 export async function Navbar() {
   const session = await getServerAuthSession();
   const user = session?.user;
+  // console.log(user?.image);
 
   return (
-    <nav className="sticky z-50 flex items-center justify-between border-b bg-nav-bg px-11 py-3 text-white">
+    <nav className="fixed w-full z-50 flex items-center justify-between border-b bg-nav-bg px-11 py-3 text-white">
       {/* <h1>This is the navbar</h1> */}
 
       {user == null ? (
@@ -20,7 +21,7 @@ export async function Navbar() {
             Welcome: <strong>{user.name}</strong>
           </h1>
           <Avatar>
-            <AvatarImage src={user.image} />
+            <AvatarImage src={user.image || ''} />
             <AvatarFallback>
               <VscAccount />
             </AvatarFallback>
